@@ -11,5 +11,4 @@ export class Cipher {
   prepare(text) {
     return text.toUpperCase();
   }
-  abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 }

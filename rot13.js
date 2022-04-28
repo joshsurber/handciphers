@@ -4,11 +4,18 @@ export class Rot13 extends Cipher {
     super();
   }
 
-  encode([...msg]) {
-    var abc = this.abc;
-    return msg
-      .map((x) => abc.charAt((abc.indexOf(x.toUpperCase()) + 13) % 26))
-      .join("");
+  encode(msg) {
+    msg = msg.split("");
+    let abc = "abcdefghijklmnopqrstuvwxyz";
+    let nop = "nopqrstuvwxyzabcdefghijklm";
+    let swap = [];
+    for (let i = 0; i < 25; i++) {
+      let input = abc[i],
+        output = nop[i];
+      swap[input] = output;
+      swap[input.toUpperCase()] = output.toUpperCase();
+    }
+    return msg.map((letter) => (swap[letter] ? swap[letter] : letter)).join("");
   }
 
   decode(msg) {

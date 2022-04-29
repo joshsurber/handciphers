@@ -1,10 +1,10 @@
-import { Rot13 } from "./rot13.js";
-var foo = new Rot13();
+import { Atbash } from "./shiftcipher.js";
+var foo = new Atbash();
 
 var f = document.querySelector("form");
 f.addEventListener("submit", (e) => {
   e.preventDefault();
   var v = document.querySelector("#txt").value;
-  document.querySelector("#txt").value = foo.encode(v);
+  document.querySelector("#txt").value = foo.decode(v);
 });
 document.querySelector("#txt").focus();

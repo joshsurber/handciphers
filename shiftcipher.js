@@ -10,15 +10,22 @@ export class ShiftCipher extends Cipher {
     if (alphabet.length != 26)
       throw new Error("Shifted alphabet not 26 letters");
     msg = msg.split("");
-    // let abc = "abcdefghijklmnopqrstuvwxyz";
-    let swap = [];
+    // alphabetMappings maps plaintext letter to ciphertext letter
+    let alphabetMappings = [];
     for (let i = 0; i < 26; i++) {
-      let input = this.abc[i],
-        output = alphabet[i];
-      swap[input.toLowerCase()] = output.toLowerCase();
-      swap[input.toUpperCase()] = output.toUpperCase();
+      let plaintext = this.abc[i],
+        ciphertext = alphabet[i];
+      // I use upper and lower letters so we can preserve case
+      alphabetMappings[plaintext.toLowerCase()] = ciphertext.toLowerCase();
+      alphabetMappings[plaintext.toUpperCase()] = ciphertext.toUpperCase();
     }
-    return msg.map((letter) => (swap[letter] ? swap[letter] : letter)).join("");
+    return msg
+      .map((letter) =>
+        // If the letter has a mapping, use it, otherwise return the
+        // character as is (digits, punctuation, etc)
+        alphabetMappings[letter] ? alphabetMappings[letter] : letter
+      )
+      .join("");
   }
 
   decode(msg) {
@@ -27,6 +34,7 @@ export class ShiftCipher extends Cipher {
 }
 
 export class Caesar extends ShiftCipher {
+  // Not an arrow function because it is called by subclasses
   encode(msg, offset) {
     return super.encode(
       msg,

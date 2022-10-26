@@ -1,4 +1,5 @@
 export class Cipher {
+  abc = "abcdefghijklmnopqrstuvwxyz";
   constructor(setup = {}) {
     return this;
   }
@@ -9,6 +10,12 @@ export class Cipher {
     return;
   }
   prepare(text) {
-    return text.toUpperCase();
+    return text.toUpperCase().replaceAll(/[^A-Z]/g, "");
+  }
+  derangedAlphabet(key, removedLetter) {
+    // use the key to create a deranged alphabet
+    key += this.abc;
+    if (removedLetter) key = key.replaceAll(removedLetter, "");
+    return [...new Set(key)];
   }
 }
